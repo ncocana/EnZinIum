@@ -97,6 +97,17 @@ public class TokenContract {
         }
     }
 
+    // Same as above but with the recipient's balance instead of the owner's.
+    public void transfer(PublicKey sender, PublicKey recipient, Double unitsSupply) {
+        try {
+            require(balanceOf(sender) >= unitsSupply);
+            this.getBalances().compute(sender, (pk, tokens) -> tokens - unitsSupply);
+            this.getBalances().put(recipient, balanceOf(recipient) + unitsSupply);
+        } catch (Exception exception) {
+            // Nothing happens.
+        }
+    }
+
     @Override
     public String toString() {
         return "\nName: " + getName() + "\nSymbol: " + symbol() + "\nTotal Supply: " + totalSupply();
