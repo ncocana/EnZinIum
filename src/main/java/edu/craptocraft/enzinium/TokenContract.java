@@ -13,6 +13,7 @@ public class TokenContract {
     private Double tokenPrice = 0d;
     private Address owner = null;
     private PublicKey ownerPK = null;
+    private int totalTokensSold = 0;
 
     public TokenContract(Address owner) {
         this.owner = owner;
@@ -106,6 +107,21 @@ public class TokenContract {
         } catch (Exception exception) {
             // Nothing happens.
         }
+    }
+
+    // Shows a list of the buyers excluding the owner.
+    public void owners() {
+        for (PublicKey pk : this.getBalances().keySet()) {
+            if (!pk.equals(this.ownerPK)) {
+                System.out.println("\nPublic Key: " + pk.hashCode() + "\nNúmero de tokens: " + getBalances().get(pk) + " " + symbol());
+            }
+        }
+    }
+
+    public int totalTokensSold() {
+        this.getBalances().forEach((pk, unitsSupply) -> this.totalTokensSold += unitsSupply);
+        this.totalTokensSold -= balanceOf(ownerPK);
+        return this.totalTokensSold;
     }
 
     @Override
