@@ -47,5 +47,15 @@ public class TokenContractTest {
         assertEquals(100, contract.getBalances().get(ownerOne.getPK()), 0d);
 
     }
+    
+    // Verifies that the transference did go well.
+    @Test
+    public void test_transferUnits() {
+
+        contract.transfer(ownerTwo.getPK(), 2d);
+        assertEquals(98d, contract.balanceOf(ownerOne.getPK()), 0d);
+        assertEquals(52d, contract.balanceOf(ownerTwo.getPK()), 0d);
+
+    }
 
 }
