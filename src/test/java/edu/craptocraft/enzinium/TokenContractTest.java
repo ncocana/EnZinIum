@@ -10,6 +10,7 @@ public class TokenContractTest {
 
     private Address ownerOne = null;
     private Address ownerTwo = null;
+    private Address ownerThree = null;
     private TokenContract contract = null;
     
     @Before
@@ -55,6 +56,14 @@ public class TokenContractTest {
         contract.transfer(ownerTwo.getPK(), 2d);
         assertEquals(98d, contract.balanceOf(ownerOne.getPK()), 0d);
         assertEquals(52d, contract.balanceOf(ownerTwo.getPK()), 0d);
+
+        // Resale.
+        ownerThree = new Address();
+        ownerThree.generateKeyPair();
+        contract.transfer(ownerTwo.getPK(), ownerThree.getPK(), 1d);
+        assertEquals(98d, contract.balanceOf(ownerOne.getPK()), 0d);
+        assertEquals(51d, contract.balanceOf(ownerTwo.getPK()), 0d);
+        assertEquals(1d, contract.balanceOf(ownerThree.getPK()), 0d);
 
     }
 
