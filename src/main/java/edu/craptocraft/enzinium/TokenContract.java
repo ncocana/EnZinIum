@@ -33,7 +33,7 @@ public class TokenContract {
         this.name = newName;
     }
 
-    public String getSymbol() {
+    public String symbol() {
         return this.symbol;
     }
 
@@ -57,13 +57,26 @@ public class TokenContract {
         this.tokenPrice = newTokenPrice;
     }
 
+    // Adds an owner if it isn't already on the HashMap.
     public void addOwner(PublicKey PK, Double unitsSupply) {
         getBalances().putIfAbsent(PK, unitsSupply);
     }
 
+    // Returns the number of elements in the HashMap.
+    public int numOwners() {
+        return this.getBalances().size();
+    }
+
+    // Returns the owner's balance.
+    // If there are no mappings for the specified key,
+    // returns a default value (0d).
+    public Double balanceOf(PublicKey owner) {
+        return this.getBalances().getOrDefault(owner, 0d);
+    }
+
     @Override
     public String toString() {
-        return "\nName: " + getName() + "\nSymbol: " + getSymbol() + "\nTotal Supply: " + totalSupply();
+        return "\nName: " + getName() + "\nSymbol: " + symbol() + "\nTotal Supply: " + totalSupply();
     }
 
 }
