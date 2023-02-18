@@ -25,6 +25,7 @@ public class Address {
         return this.SK;
     }
 
+    // Method for test.
     boolean isSKpresent() {
         return this.getSK() != null;
     }
@@ -33,7 +34,7 @@ public class Address {
         this.SK = newSK;
     }
 
-    private double getBalance() {
+    public double getBalance() {
         return this.balance;
     }
 
@@ -41,23 +42,31 @@ public class Address {
         return this.symbol;
     }
 
+    // Generates a public and private key.
     public void generateKeyPair() {
         KeyPair kPair = GenSig.generateKeyPair();
         this.setPK(kPair.getPublic());
         this.setSK(kPair.getPrivate());
     }
 
+    // Transfer the "ezi" (enziniums).
     public void transferEZI(Double ezi) {
         this.balance += ezi;
     }
 
-    // public void send(TokenContract contract, Double ezi) {
-
-    // }
+    // If the "balance" is equal or superior to "ezi" (enziniums),
+    // then executes the method "payable()" of the "TokenContract" class,
+    // and substracts the amount of enziniums payed out of the "balance".
+    public void send(TokenContract contract, Double ezi) {
+        if (ezi <= getBalance()) {
+            contract.payable(getPK(), ezi);
+            this.balance -= ezi;
+        }
+    }
 
     @Override
     public String toString() {
-        return "\nPublick Key: " + getPK().hashCode() + "\nBalance: " + getBalance() + getSymbol();
+        return "\nPublick Key: " + getPK().hashCode() + "\nBalance: " + getBalance() + " " + getSymbol();
     }
 
 }
