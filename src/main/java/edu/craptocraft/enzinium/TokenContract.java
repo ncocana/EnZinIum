@@ -84,7 +84,7 @@ public class TokenContract {
         }
     }
 
-    // Checks if the owner's balance is superior to "unitsSupply".
+    // Checks if the owner's balance is superior or equal to "unitsSupply".
     // If not, fails silently.
     // It it is, substracts the value of "unitsSupply" out of the owner's account
     // and then adds it to the recipient's account.
@@ -118,10 +118,28 @@ public class TokenContract {
         }
     }
 
+    // Sums the number of tokens of each PK in "getBalances()",
+    // then substracts the number of tokens of the owner,
+    // and returns the final result.
     public int totalTokensSold() {
         this.getBalances().forEach((pk, unitsSupply) -> this.totalTokensSold += unitsSupply);
         this.totalTokensSold -= balanceOf(ownerPK);
         return this.totalTokensSold;
+    }
+
+    // Checks if the recipients's balance is superior or equal to "ezi" (enziniums).
+    // If not, fails silently.
+    // It it is, then divides the number of enzinums by the token price,
+    // and transfer the units to the recipient and the enziniums to the owner.
+    void payable(PublicKey recipient, Double ezi) {
+        try {
+            require(ezi >= this.getTokenPrice());
+            Double unitsSupply = Math.floor(ezi / getTokenPrice());
+            transfer(recipient, unitsSupply);
+            this.getOwner().transferEZI(ezi);
+        } catch (Exception exception) {
+            // Nothing happens.
+        }
     }
 
     @Override
