@@ -41,7 +41,7 @@ public class TokenContract {
         this.symbol = newSymbol;
     }
 
-    public Double getTotalSupply() {
+    public Double totalSupply() {
         return this.totalSupply;
     }
 
@@ -57,9 +57,13 @@ public class TokenContract {
         this.tokenPrice = newTokenPrice;
     }
 
+    public void addOwner(PublicKey PK, Double unitsSupply) {
+        getBalances().putIfAbsent(PK, unitsSupply);
+    }
+
     @Override
     public String toString() {
-        return "\nName: " + getName() + "\nSymbol: " + getSymbol() + "\nTotal Supply: " + getTotalSupply();
+        return "\nName: " + getName() + "\nSymbol: " + getSymbol() + "\nTotal Supply: " + totalSupply();
     }
 
 }
