@@ -25,6 +25,10 @@ public class Address {
         return this.SK;
     }
 
+    boolean isSKpresent() {
+        return this.getSK() != null;
+    }
+
     private void setSK(PrivateKey newSK) {
         this.SK = newSK;
     }
@@ -42,6 +46,14 @@ public class Address {
         this.setPK(kPair.getPublic());
         this.setSK(kPair.getPrivate());
     }
+
+    public void transferEZI(Double ezi) {
+        this.balance += ezi;
+    }
+
+    // public void send(TokenContract contract, Double ezi) {
+
+    // }
 
     @Override
     public String toString() {
