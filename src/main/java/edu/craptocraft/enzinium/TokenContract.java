@@ -12,9 +12,11 @@ public class TokenContract {
     private Double totalSupply = 0d;
     private Double tokenPrice = 0d;
     private Address owner = null;
+    private PublicKey ownerPK = null;
 
     public TokenContract(Address owner) {
         this.owner = owner;
+        this.ownerPK = owner.getPK();
     }
 
     public Address getOwner() {
@@ -72,6 +74,27 @@ public class TokenContract {
     // returns a default value (0d).
     public Double balanceOf(PublicKey owner) {
         return this.getBalances().getOrDefault(owner, 0d);
+    }
+
+    // If "holds" is false, throws an Exception.
+    private void require(Boolean holds) throws Exception {
+        if (!holds) {
+            throw new Exception();
+        }
+    }
+
+    // Checks if the owner's balance is superior to "unitsSupply".
+    // If not, fails silently.
+    // It it is, substracts the value of "unitsSupply" out of the owner's account
+    // and then adds it to the recipient's account.
+    public void transfer(PublicKey recipient, Double unitsSupply) {
+        try {
+            require(balanceOf(ownerPK) >= unitsSupply);
+            this.getBalances().compute(ownerPK, (pk, tokens) -> tokens - unitsSupply);
+            this.getBalances().put(recipient, balanceOf(recipient) + unitsSupply);
+        } catch (Exception exception) {
+            // Nothing happens.
+        }
     }
 
     @Override
