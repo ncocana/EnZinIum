@@ -27,8 +27,9 @@ Each user has an `Address` on the platform, from which they can manage their EnZ
 
 ## UML Diagram
 
-!["Diagrama de clases UML"](./docs/diagram-uml-enzinium.png "Diagrama de clases UML")
+!["Diagrama de clases UML"](./docs/diagram_uml_enzinium.png "Diagrama de clases UML")
 
 ## Application output
 
-(imagen)  
+![Captura de pantalla 2023-02-19 000820](https://user-images.githubusercontent.com/117761602/219903694-5644d2fc-ceca-4578-9912-8568c25ca9ad.jpg)   
+![Captura de pantalla 2023-02-19 000851](https://user-images.githubusercontent.com/117761602/219903699-2b4c54b2-95d9-41f5-968a-4186ff857fcf.jpg)   
